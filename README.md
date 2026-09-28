@@ -1,6 +1,6 @@
 # Business Strategy Stress Tester
 
-A Claude Code / Claude.ai **skill** that puts an *existing operating business* through a structured, brutally honest strategic stress test — Socratic dialogue, deep web research, devil's-advocate critique — across three axes (**model viability × disruption pressure × transformation capacity**), then ships a printable HTML verdict report.
+An OpenCode / Codex / Claude-compatible **skill** that puts an *existing operating business* through a structured, brutally honest strategic stress test — Socratic dialogue, deep web research, devil's-advocate critique — across three axes (**model viability × disruption pressure × transformation capacity**), then ships a printable HTML verdict report.
 
 It's not a validation of an idea. It's not a brainstorm. It's not a friendly second opinion. It's the conversation you'd have with an experienced operator who's seen the category turn before: sharp, honest, useful — designed to find the load-bearing assumptions your *current* model rests on and pressure-test each one until it holds up or breaks, before another quarter is lost defending the wrong thing.
 
@@ -35,21 +35,38 @@ It does **not** trigger for pre-build ideas — those go to [business-idea-stres
 
 ## Install
 
-### Claude Code (CLI)
+### OpenCode (optional)
 
-Drop the skill into your skills directory:
-
-```bash
-git clone https://github.com/buraksu42/business-strategy-stress-tester ~/.claude/skills/business-strategy-stress-tester
-```
-
-That's it. Next time you start a Claude Code session and describe an operating business under pressure, the skill activates automatically.
-
-To update later:
+Use one maintained clone and link it to the client’s global skill directory.
+The example uses `~/Skills`; choose a different source directory if preferred.
+If either path already exists (including a broken symlink), inspect it first; do not overwrite it.
 
 ```bash
-cd ~/.claude/skills/business-strategy-stress-tester && git pull
+mkdir -p "$HOME/Skills" "$HOME/.config/opencode/skills"
+git clone https://github.com/buraksu42/business-strategy-stress-tester.git "$HOME/Skills/business-strategy-stress-tester"
+ln -s "$HOME/Skills/business-strategy-stress-tester" "$HOME/.config/opencode/skills/business-strategy-stress-tester"
 ```
+
+Open a new OpenCode session and ask it to load `business-strategy-stress-tester` using its skill tool;
+verify the reported source resolves to `~/Skills/business-strategy-stress-tester/SKILL.md`.
+OpenCode's [global skill discovery](https://opencode.ai/docs/skills/) is on-demand;
+installation alone does not force invocation on every request.
+
+For updates, first inspect `git status --short --branch` and `git diff` in the clone.
+Only on a clean, intended tracking branch, run `git pull --ff-only`; stop on divergence.
+Do not auto-stash, discard local changes, or push as part of a skill update.
+
+Choose the client, model provider, and development host in your own configuration.
+This public skill contains no personal infrastructure profile and requires no specific
+provider subscription. Follow the project's configured test commands and repository rules.
+See the runtime compatibility section in `SKILL.md` for tool and git boundaries.
+
+### Other compatible clients (optional)
+
+Claude Code may use a non-overwriting directory symlink from
+`~/.claude/skills/business-strategy-stress-tester` to the same central clone. Codex may use its configured
+skill directory. Check existing copies first, especially `~/.agents/skills`, which
+OpenCode also discovers; avoid duplicate skill names. No second clone is needed.
 
 ### Claude.ai (web / desktop)
 
@@ -57,7 +74,7 @@ Download `business-strategy-stress-tester.skill` from this repo, then upload it 
 
 ## Usage
 
-Just talk to Claude about your business. No slash command, no special invocation. Example openings that trigger the skill:
+Just talk to the agent about your business. No slash command, no special invocation. Example openings that trigger the skill:
 
 > *"We run a 15-person performance-marketing agency and AI is eating our deliverables. What do we do over the next 3 years?"*
 >
@@ -65,7 +82,7 @@ Just talk to Claude about your business. No slash command, no special invocation
 >
 > *"A platform we depend on just changed their terms. Is the model still viable?"*
 
-Claude will respond as the stress-tester: questions first, then research, then verdict, then HTML report. The whole flow takes 30–60 minutes of dialogue depending on how much pushback the model survives.
+The agent will respond as the stress-tester: questions first, then research, then verdict, then HTML report. The whole flow takes 30–60 minutes of dialogue depending on how much pushback the model survives.
 
 ## Output
 
